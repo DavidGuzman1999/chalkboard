@@ -233,13 +233,15 @@ app.post('/login_stu', function (req, res, next) {
     if (!user) {
       return res.render("index", { valid: "User does not exist" });
     }
-    else if(req.body.password === user.password && user.userType == "student") {
-      req.session.userId = user.unique_id;
-      return res.render("student_homepage");
-      // getEnrolledCourses(user, 'student_homepage', res);
-    }
     else {
-      return res.render("index", { valid: "Incorrect email or password" });
+      if (req.body.password === user.password && user.userType == "student") {
+        req.session.userId = user.unique_id;
+        return res.render("student_homepage");
+        // getEnrolledCourses(user, 'student_homepage', res);
+      }
+      else {
+        return res.render("index", { valid: "Incorrect email or password" });
+      }
     }
   });
 });
