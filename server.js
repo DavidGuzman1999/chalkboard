@@ -277,3 +277,17 @@ app.post('/signOut', function(req, res){
         }
     });
 });
+
+app.post('/back_student', function(req, res, next) {
+  User.findOne({unique_id: req.session.userId}, function(err, user) {
+      // getEnrolledCourses(user, 'student_homepage', res)
+      return res.render("student_homepage");
+  });
+});
+
+app.post('/back_professor',function(req, res, next) {
+  User.findOne({unique_id: req.session.userId}, function(err, user) {
+      // getEnrolledCourses(user, 'professor_homepage', res)
+      return res.render("professor_homepage");
+  });
+});
