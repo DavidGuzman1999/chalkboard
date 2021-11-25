@@ -263,3 +263,17 @@ function getEnrolledCourses(user, goto, res) {
         //     return res.render(__dirname + gotoUrl, {print:result});
         // });
 }
+
+//clear cookies on the browser and destroy session when use hit sign out to log out
+app.post('/signOut', function(req, res){
+  sess=req.session;
+    sess.destroy(function(err) {
+        if(err){
+            console.log("Error Logging out!")
+            return res.render(__dirname); // if failed stay on same page
+        }else{
+            console.log("Session Destroyed successfully");
+        return res.render("index", { valid: "" }); // if successful go to homepage
+        }
+    });
+});
