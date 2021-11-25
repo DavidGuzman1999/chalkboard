@@ -16,7 +16,7 @@ const PORT = process.env.PORT || 3000;
 
 const { MongoClient } = require('mongodb');
 let db;
-const uri = "mongodb+srv://Jason:Totojiang@cluster0.yukz6.mongodb.net/chalkboard?retryWrites=true&w=majority";
+const uri = process.env.URL;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
     if (!err) {
@@ -34,11 +34,11 @@ app.use(
     secret: 'totally a secret',
     resave: true,
     saveUninitialized: false,
-    store: MongoStore.create({mongoUrl: 'mongodb+srv://Jason:Totojiang@cluster0.yukz6.mongodb.net/chalkboard?retryWrites=true&w=majority'})
+    store: MongoStore.create({mongoUrl: uri})
   })
 );
 
-mongoose.connect('mongodb+srv://Jason:Totojiang@cluster0.yukz6.mongodb.net/chalkboard?retryWrites=true&w=majority', {
+mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }, (err) => {
