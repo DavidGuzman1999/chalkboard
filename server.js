@@ -106,6 +106,10 @@ app.get('/student_lecture', (req, res) => {
     res.render('student_lecture');
 })
 
+app.get('/professor_addClass', (req, res) => {
+    res.render('professor_addClass')
+})
+
 app.listen(PORT, () => {
     console.log(`Express listening on port ${PORT}`);
 })
@@ -241,6 +245,24 @@ app.post('/login_stu', function (req, res, next) {
       }
       else {
         return res.render("index", { valid: "Incorrect email or password" });
+      }
+    }
+  });
+});
+
+app.post('/login_prof', function (req, res, next) {
+  User.findOne({ email: req.body.email }, function (err, user) {
+    if (!user) {
+      return res.render("professor_login", { valid: "User does not exist" });
+    }
+    else {
+      if (req.body.password === user.password && user.userType == "professor") {
+        req.session.userId = user.unique_id;
+        return res.render("professor_homepage");
+        // getEnrolledCourses(user, 'professor_homepage', res);
+      }
+      else {
+        return res.render("professor_login", { valid: "Incorrect email or password" });
       }
     }
   });

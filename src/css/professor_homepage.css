@@ -71,6 +71,7 @@ body {
 
 .add {
   margin-right: 2rem;
+  cursor: pointer;
 }
 
 .add img {
