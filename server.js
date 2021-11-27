@@ -291,3 +291,10 @@ app.post('/back_professor',function(req, res, next) {
       return res.render("professor_homepage");
   });
 });
+
+app.post('/back_admin',function(req, res, next) {
+  User.findOne({unique_id: req.session.userId}, function(err, user) {
+      // getEnrolledCourses(user, 'professor_homepage', res)
+      return res.render("admin_homepage");
+  });
+});
