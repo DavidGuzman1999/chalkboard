@@ -1,5 +1,43 @@
 # Chalkboard
 
+# Chalkboard Live Website
+
+[Chalkboard Website](https://chalk-board-app.herokuapp.com/)
+
+# Features
+
+- Responsive Design for mobile, tablet, and desktop
+- Clear Navigation
+- Save Draft of Assignments
+- Course Homepage
+
+# Purpose of the Website
+
+The website allows professors to create courses for students where they can create multiple courses each with their own individual assignments, lessons, videos, etc. For students they are able to request to join professor created courses and complete assignments with the ability to save assignments as drafts to work on later. Overall the website is designed to allow for a classroom based setting for professors and students to interact.
+
+# Visuals
+
+### Desktop
+
+![Desktop](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
+![Desktop](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
+![Desktop](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
+![Desktop](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
+
+### Tablet
+
+![Tablet](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
+![Tablet](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
+![Tablet](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
+![Tablet](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
+
+### Mobile
+
+![Mobile](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
+![Mobile](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
+![Mobile](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
+![Mobile](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
+
 # D0 WireFrame and SiteMap:
 
 ## WireFrame
@@ -53,4 +91,4 @@ Jason Jiang
 
 Jason Jiang
 
-- Created the user schema's, turned student and login html into ejs, setup express backend, created mongo database, hosted application on heroku, initialized user sign up and signin.
+- Created the user schema's, turned student and login html into ejs, setup express backend, created mongo database, hosted application on heroku, initialized user sign up and signin. I also created sessions for the application when you sign in so you cant copy and paste the url to get into the application. Currently working on creating a schema for classes and assginments for when professors create classes that hold videos, assignments,lectures and much more. Feedback was also taken from deliverable 2 and I increased the css ratio for smaller screens under screen size of 1000px. Added Features, Purpose of the Website and Images to the ReadMe.
