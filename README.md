@@ -19,24 +19,24 @@ The website allows professors to create courses for students where they can crea
 
 ### Desktop
 
-![Desktop](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
-![Desktop](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
-![Desktop](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
-![Desktop](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
+![Desktop](https://github.com/DavidGuzman1999/chalkboard/blob/main/screenshots/desktop_signin.PNG)
+![Desktop](https://github.com/DavidGuzman1999/chalkboard/blob/main/screenshots/desktop_signup.PNG)
+![Desktop](https://github.com/DavidGuzman1999/chalkboard/blob/main/screenshots/desktop_homepage.PNG)
+![Desktop](https://github.com/DavidGuzman1999/chalkboard/blob/main/screenshots/desktop_course.PNG)
 
 ### Tablet
 
-![Tablet](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
-![Tablet](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
-![Tablet](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
-![Tablet](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
+![Tablet](https://github.com/DavidGuzman1999/chalkboard/blob/main/screenshots/tablet_signin.PNG)
+![Tablet](https://github.com/DavidGuzman1999/chalkboard/blob/main/screenshots/tablet_signup.PNG)
+![Tablet](https://github.com/DavidGuzman1999/chalkboard/blob/main/screenshots/tablet_homepage.PNG)
+![Tablet](https://github.com/DavidGuzman1999/chalkboard/blob/main/screenshots/tablet_course.PNG)
 
 ### Mobile
 
-![Mobile](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
-![Mobile](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
-![Mobile](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
-![Mobile](https://github.com/DavidGuzman1999/chalkboard/blob/main/images/IMG-0692.jpg)
+![Mobile](https://github.com/DavidGuzman1999/chalkboard/blob/main/screenshots/mobile_signin.PNG)
+![Mobile](https://github.com/DavidGuzman1999/chalkboard/blob/main/screenshots/mobile_signup.PNG)
+![Mobile](https://github.com/DavidGuzman1999/chalkboard/blob/main/screenshots/mobile_homepage.PNG)
+![Mobile](https://github.com/DavidGuzman1999/chalkboard/blob/main/screenshots/mobile_course.PNG)
 
 # D0 WireFrame and SiteMap:
 
