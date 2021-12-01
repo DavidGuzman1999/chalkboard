@@ -149,13 +149,17 @@ userSchema = new Schema({
 
 User = mongoose.model('User', userSchema);
 
-// classSchema = new Schema({
+// courseSchema = new Schema({
 //     courseName: {
 //         type: String,
 //         required: true,
 //     },
 //     courseId: {
 //         type: String,
+//         required: true,
+//     },
+//     courseCode: {
+//         type: SVGAnimatedInteger,
 //         required: true,
 //     },
 //     instructors: {
@@ -166,14 +170,18 @@ User = mongoose.model('User', userSchema);
 //         type: String
 //     },
 //     students: {
-//         type: [String]
+//         type: [Integer]
 //     },
 //     assignments: [
 //         {
 //             title: String,
 //             dueDate: Date,
-
 //         }
+//     ],
+//     videos: [
+//       {
+
+//       }
 //     ]
 // });
 
@@ -221,7 +229,7 @@ app.post('/sign_up', function (req, res, next) {
                 console.log('Success');
             });
           }).sort({ _id: -1 }).limit(1);
-          return res.render("index", { valid: "Sucess!" });
+          return res.redirect("index", { valid: "Sucess!" });
         } else {
           return res.render("signup", { valid: "Email is already in use!" });
         }
@@ -240,7 +248,7 @@ app.post('/login_stu', function (req, res, next) {
     else {
       if (req.body.password === user.password && user.userType == "student") {
         req.session.userId = user.unique_id;
-        return res.render("student_homepage");
+        return res.redirect("student_homepage");
         // getEnrolledCourses(user, 'student_homepage', res);
       }
       else {
@@ -258,7 +266,7 @@ app.post('/login_prof', function (req, res, next) {
     else {
       if (req.body.password === user.password && user.userType == "professor") {
         req.session.userId = user.unique_id;
-        return res.render("professor_homepage");
+        return res.redirect("professor_homepage");
         // getEnrolledCourses(user, 'professor_homepage', res);
       }
       else {
@@ -291,11 +299,11 @@ app.post('/signOut', function(req, res){
   sess=req.session;
     sess.destroy(function(err) {
         if(err){
-            console.log("Error Logging out!")
-            return res.render(__dirname); // if failed stay on same page
+          console.log("Error Logging out!")
+          return res.render(__dirname); // if failed stay on same page
         }else{
-            console.log("Session Destroyed successfully");
-        return res.render("index", { valid: "" }); // if successful go to homepage
+          console.log("Session Destroyed successfully");
+          return res.redirect("/"); // if successful go to homepage
         }
     });
 });
@@ -303,20 +311,20 @@ app.post('/signOut', function(req, res){
 app.post('/back_student', function(req, res, next) {
   User.findOne({unique_id: req.session.userId}, function(err, user) {
       // getEnrolledCourses(user, 'student_homepage', res)
-      return res.render("student_homepage");
+      return res.redirect("student_homepage");
   });
 });
 
 app.post('/back_professor',function(req, res, next) {
   User.findOne({unique_id: req.session.userId}, function(err, user) {
       // getEnrolledCourses(user, 'professor_homepage', res)
-      return res.render("professor_homepage");
+      return res.redirect("professor_homepage");
   });
 });
 
 app.post('/back_admin',function(req, res, next) {
   User.findOne({unique_id: req.session.userId}, function(err, user) {
       // getEnrolledCourses(user, 'professor_homepage', res)
-      return res.render("admin_homepage");
+      return res.redirect("admin_homepage");
   });
 });
