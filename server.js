@@ -2,15 +2,18 @@ const express = require('express');
 var path = require('path');
 const mongoose = require('mongoose');
 const app = express();
+const bcrypt = require("bcrypt");
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const cookieParser = require("cookie-parser");
 const MongoStore = require('connect-mongo');
 const dotenv = require('dotenv');
 dotenv.config();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
+// app.use(cookieParser());
+app.use(express.json());
 var ejs = require('ejs');
 const PORT = process.env.PORT || 3000;
 
@@ -28,16 +31,17 @@ client.connect(err => {
     }
     // perform actions on the collection object
 });
-
+// const oneDay = 1000 * 60 * 60 * 24;
 app.use(
   session({
     secret: 'totally a secret',
-    resave: true,
+    resave: false,
     saveUninitialized: false,
+    // cookie: { maxAge: oneDay },
     store: MongoStore.create({mongoUrl: uri})
   })
 );
-
+var sess;
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
@@ -59,55 +63,120 @@ app.get('/', (req, res) => {
 });
 
 app.get('/student_homepage', (req, res) => {
-    res.render('student_homepage');
+    sess=req.session;
+    if(sess.userId = req.session.userId){
+      res.render('student_homepage');
+    }else{
+      res.redirect('/');
+    }
 })
 
 app.get('/login_professor', (req, res) => {
-    res.render('professor_login');
+    sess=req.session;
+    if(sess.userId = req.session.userId){
+      res.render('professor_login');
+    }else{
+      res.redirect('/');
+    }
 })  
 
 app.get('/login_admin', (req, res) => {
-    res.render('admin_login');
+    sess=req.session;
+    if(sess.userId = req.session.userId){
+      res.render('admin_login');
+    }else{
+      res.redirect('/');
+    }
 })
 
 app.get('/sign_up', (req, res) => {
-    res.render('signup', {valid: ""});
+    sess=req.session;
+    if(sess.userId = req.session.userId){
+      res.render('signup', {valid: ""});
+    }else{
+      res.redirect('/');
+    }
 })
 
 app.get('/professor_homepage', (req, res) => {
-    res.render('professor_homepage');
+    sess=req.session;
+    if(sess.userId = req.session.userId){
+      res.render('professor_homepage');
+    }else{
+      res.redirect('/');
+    }
 })
 
 app.get('/student_course', (req, res) => {
-    res.render('student_course');
+    sess=req.session;
+    if(sess.userId = req.session.userId){
+      res.render('student_course');
+    }else{
+      res.redirect('/');
+    }
 })
 
 app.get('/student_add_course', (req, res) => {
-    res.render('student_add_course');
+    sess=req.session;
+    if(sess.userId = req.session.userId){
+      res.render('student_add_course');
+    }else{
+      res.redirect('/');
+    }
 })
 
 app.get('/student_assignment', (req, res) => {
-    res.render('student_assignment');
+    sess=req.session;
+    if(sess.userId = req.session.userId){
+      res.render('student_assignment');
+    }else{
+      res.redirect('/');
+    }
 })
 
 app.get('/student_video', (req, res) => {
-    res.render('student_video');
+    sess=req.session;
+    if(sess.userId = req.session.userId){
+      res.render('student_video');
+    }else{
+      res.redirect('/');
+    }
 })
 
 app.get('/student_work', (req, res) => {
-    res.render('student_work');
+    sess=req.session;
+    if(sess.userId = req.session.userId){
+      res.render('student_work');
+    }else{
+      res.redirect('/');
+    }
 })
 
 app.get('/student_textbook', (req, res) => {
-    res.render('student_textbook');
+    sess=req.session;
+    if(sess.userId = req.session.userId){
+      res.render('student_textbook');
+    }else{
+      res.redirect('/');
+    }
 })
 
 app.get('/student_lecture', (req, res) => {
-    res.render('student_lecture');
+    sess=req.session;
+    if(sess.userId = req.session.userId){
+      res.render('student_lecture');
+    }else{
+      res.redirect('/');
+    }
 })
 
 app.get('/professor_addClass', (req, res) => {
-    res.render('professor_addClass')
+    sess=req.session;
+    if(sess.userId = req.session.userId){
+      res.render('professor_addClass');
+    }else{
+      res.redirect('/');
+    }
 })
 
 app.listen(PORT, () => {
@@ -194,7 +263,7 @@ app.use(function(req, res, next) {
 });
 
 app.post('/sign_up', function (req, res, next) {
-  console.log(req.body);
+  // console.log(req.body);
   var personInfo = req.body;
 
   if (!personInfo.email || !personInfo.first || !personInfo.last || !personInfo.password || !personInfo.confirmPassword) {
@@ -205,21 +274,24 @@ app.post('/sign_up', function (req, res, next) {
       User.findOne({ email: personInfo.email }, function (err, data) {
         if (!data) {
           var c;
-          User.findOne({}, function (err, data) {
+          User.findOne({}, async function (err, data) {
             if (data) {
               console.log("if");
               c = data.unique_id + 1;
             } else {
               c = 1;
             }
+            const salt = await bcrypt.genSalt(10);
+            let hashpassword = await bcrypt.hash(personInfo.password, salt);
+            // console.log(hashpassword.toString())
             var newPerson = new User({
               unique_id: c,
               email: personInfo.email,
               first: personInfo.first,
               last: personInfo.last,
               userType: personInfo.userType,
-              password: personInfo.password,
-              confirmPassword: personInfo.confirmPassword,
+              password: hashpassword.toString(),
+              confirmPassword: hashpassword.toString(),
               courses: [""]
             });
             newPerson.save(function (err, Person) {
@@ -229,7 +301,7 @@ app.post('/sign_up', function (req, res, next) {
                 console.log('Success');
             });
           }).sort({ _id: -1 }).limit(1);
-          return res.redirect("index", { valid: "Sucess!" });
+          return res.redirect("/");
         } else {
           return res.render("signup", { valid: "Email is already in use!" });
         }
@@ -241,12 +313,13 @@ app.post('/sign_up', function (req, res, next) {
 });
 
 app.post('/login_stu', function (req, res, next) {
-  User.findOne({ email: req.body.email }, function (err, user) {
+  User.findOne({ email: req.body.email }, async function (err, user) {
     if (!user) {
       return res.render("index", { valid: "User does not exist" });
     }
     else {
-      if (req.body.password === user.password && user.userType == "student") {
+      const validPassword = await bcrypt.compare(req.body.password, user.password);
+      if (validPassword && user.userType == "student") {
         req.session.userId = user.unique_id;
         return res.redirect("student_homepage");
         // getEnrolledCourses(user, 'student_homepage', res);
