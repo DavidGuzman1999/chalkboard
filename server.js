@@ -12,7 +12,7 @@ dotenv.config();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(cookieParser());
+app.use(cookieParser());
 app.use(express.json());
 var ejs = require('ejs');
 const PORT = process.env.PORT || 3000;
@@ -31,13 +31,13 @@ client.connect(err => {
     }
     // perform actions on the collection object
 });
-// const oneDay = 1000 * 60 * 60 * 24;
+const oneDay = 1000 * 60 * 60 * 24;
 app.use(
   session({
     secret: 'totally a secret',
     resave: false,
     saveUninitialized: false,
-    // cookie: { maxAge: oneDay },
+    cookie: { maxAge: oneDay },
     store: MongoStore.create({mongoUrl: uri})
   })
 );
@@ -59,12 +59,26 @@ app.use(express.static(__dirname + '/src'));
 app.set('views', path.join(__dirname, 'src/views'))
 
 app.get('/', (req, res) => {
-    res.render('index', {valid: ""});
+    sess=req.session;
+    if(sess.userId){
+      if(sess.user == "student"){
+        res.redirect('student_homepage');
+      }
+      else if(sess.user == "professor"){
+        res.redirect('professor_homepage');
+      }
+      else{
+        res.redirect('admin_homepage');
+      }
+    }
+    else{
+      res.render('index', {valid: ""});
+    }
 });
 
 app.get('/student_homepage', (req, res) => {
     sess=req.session;
-    if(sess.userId = req.session.userId){
+    if(sess.userId){
       res.render('student_homepage');
     }else{
       res.redirect('/');
@@ -73,7 +87,7 @@ app.get('/student_homepage', (req, res) => {
 
 app.get('/login_professor', (req, res) => {
     sess=req.session;
-    if(sess.userId = req.session.userId){
+    if(sess.userId){
       res.render('professor_login');
     }else{
       res.redirect('/');
@@ -82,7 +96,7 @@ app.get('/login_professor', (req, res) => {
 
 app.get('/login_admin', (req, res) => {
     sess=req.session;
-    if(sess.userId = req.session.userId){
+    if(sess.userId){
       res.render('admin_login');
     }else{
       res.redirect('/');
@@ -91,7 +105,7 @@ app.get('/login_admin', (req, res) => {
 
 app.get('/sign_up', (req, res) => {
     sess=req.session;
-    if(sess.userId = req.session.userId){
+    if(sess.userId){
       res.render('signup', {valid: ""});
     }else{
       res.redirect('/');
@@ -100,7 +114,7 @@ app.get('/sign_up', (req, res) => {
 
 app.get('/professor_homepage', (req, res) => {
     sess=req.session;
-    if(sess.userId = req.session.userId){
+    if(sess.userId){
       res.render('professor_homepage');
     }else{
       res.redirect('/');
@@ -109,7 +123,7 @@ app.get('/professor_homepage', (req, res) => {
 
 app.get('/student_course', (req, res) => {
     sess=req.session;
-    if(sess.userId = req.session.userId){
+    if(sess.userId){
       res.render('student_course');
     }else{
       res.redirect('/');
@@ -118,7 +132,7 @@ app.get('/student_course', (req, res) => {
 
 app.get('/student_add_course', (req, res) => {
     sess=req.session;
-    if(sess.userId = req.session.userId){
+    if(sess.userId){
       res.render('student_add_course');
     }else{
       res.redirect('/');
@@ -127,7 +141,7 @@ app.get('/student_add_course', (req, res) => {
 
 app.get('/student_assignment', (req, res) => {
     sess=req.session;
-    if(sess.userId = req.session.userId){
+    if(sess.userId){
       res.render('student_assignment');
     }else{
       res.redirect('/');
@@ -136,7 +150,7 @@ app.get('/student_assignment', (req, res) => {
 
 app.get('/student_video', (req, res) => {
     sess=req.session;
-    if(sess.userId = req.session.userId){
+    if(sess.userId){
       res.render('student_video');
     }else{
       res.redirect('/');
@@ -145,7 +159,7 @@ app.get('/student_video', (req, res) => {
 
 app.get('/student_work', (req, res) => {
     sess=req.session;
-    if(sess.userId = req.session.userId){
+    if(sess.userId){
       res.render('student_work');
     }else{
       res.redirect('/');
@@ -154,7 +168,7 @@ app.get('/student_work', (req, res) => {
 
 app.get('/student_textbook', (req, res) => {
     sess=req.session;
-    if(sess.userId = req.session.userId){
+    if(sess.userId){
       res.render('student_textbook');
     }else{
       res.redirect('/');
@@ -163,7 +177,7 @@ app.get('/student_textbook', (req, res) => {
 
 app.get('/student_lecture', (req, res) => {
     sess=req.session;
-    if(sess.userId = req.session.userId){
+    if(sess.userId){
       res.render('student_lecture');
     }else{
       res.redirect('/');
@@ -172,7 +186,7 @@ app.get('/student_lecture', (req, res) => {
 
 app.get('/professor_addClass', (req, res) => {
     sess=req.session;
-    if(sess.userId = req.session.userId){
+    if(sess.userId){
       res.render('professor_addClass');
     }else{
       res.redirect('/');
@@ -321,6 +335,7 @@ app.post('/login_stu', function (req, res, next) {
       const validPassword = await bcrypt.compare(req.body.password, user.password);
       if (validPassword && user.userType == "student") {
         req.session.userId = user.unique_id;
+        req.session.user = user.userType;
         return res.redirect("student_homepage");
         // getEnrolledCourses(user, 'student_homepage', res);
       }
@@ -339,6 +354,7 @@ app.post('/login_prof', function (req, res, next) {
     else {
       if (req.body.password === user.password && user.userType == "professor") {
         req.session.userId = user.unique_id;
+        req.session.user = user.userType;
         return res.redirect("professor_homepage");
         // getEnrolledCourses(user, 'professor_homepage', res);
       }
