@@ -132,3 +132,12 @@ body {
 .due {
   display: block;
 }
+
+.assignment {
+  text-decoration: none;
+  color: black;
+}
+
+.title {
+  text-align: center;
+}

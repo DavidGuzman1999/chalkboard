@@ -118,6 +118,7 @@ body {
 }
 
 .buttons {
+  padding-top: 1rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -131,4 +132,9 @@ body {
 
 .due {
   display: block;
+}
+
+.desc {
+  display: block;
+  padding-bottom: 1rem;
 }

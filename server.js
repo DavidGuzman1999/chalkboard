@@ -144,20 +144,6 @@ app.get('/sign_up', (req, res) => {
     }
 })
 
-app.get('/professor_homepage', (req, res) => {
-    sess=req.session;
-    if(sess.userId){
-      if(sess.user == "professor"){
-        res.render('professor_homepage');
-      }
-      else{
-        res.redirect('error');
-      }
-    }else{
-      res.redirect('/');
-    }
-})
-
 app.get('/student_course', (req, res) => {
     sess=req.session;
     if(sess.userId){
@@ -256,11 +242,95 @@ app.get('/student_lecture', (req, res) => {
     }
 })
 
+app.get('/professor_homepage', (req, res) => {
+    sess=req.session;
+    if(sess.userId){
+      if(sess.user == "professor"){
+        res.render('professor_homepage');
+      }
+      else{
+        res.redirect('error');
+      }
+    }else{
+      res.redirect('/');
+    }
+})
+
 app.get('/professor_addClass', (req, res) => {
     sess=req.session;
     if(sess.userId){
-      if(sess.user == "student"){
+      if(sess.user == "professor"){
         res.render('professor_addClass');
+      }
+      else{
+        res.redirect('error');
+      }
+    }else{
+      res.redirect('/');
+    }
+})
+
+app.get('/professor_coursePage', (req, res) => {
+    sess=req.session;
+    if(sess.userId){
+      if(sess.user == "professor"){
+        res.render('professor_coursePage');
+      }
+      else{
+        res.redirect('error');
+      }
+    }else{
+      res.redirect('/');
+    }
+})
+
+app.get('/professor_assignment', (req, res) => {
+    sess=req.session;
+    if(sess.userId){
+      if(sess.user == "professor"){
+        res.render('professor_assignment');
+      }
+      else{
+        res.redirect('error');
+      }
+    }else{
+      res.redirect('/');
+    }
+})
+
+app.get('/professor_assigned', (req, res) => {
+    sess=req.session;
+    if(sess.userId){
+      if(sess.user == "professor"){
+        res.render('professor_assigned');
+      }
+      else{
+        res.redirect('error');
+      }
+    }else{
+      res.redirect('/');
+    }
+})
+
+app.get('/professor_textbook', (req, res) => {
+    sess=req.session;
+    if(sess.userId){
+      if(sess.user == "professor"){
+        res.render('professor_textbook');
+      }
+      else{
+        res.redirect('error');
+      }
+    }else{
+      res.redirect('/');
+    }
+})
+
+app.get('/professor_video', (req, res) => {
+    sess=req.session;
+    if(sess.userId){
+      if(sess.user == "professor"){
+        res.render('professor_video');
       }
       else{
         res.redirect('error');

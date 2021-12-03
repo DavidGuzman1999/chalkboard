@@ -145,6 +145,7 @@ body {
 .title a {
   color: white;
   text-decoration: none;
+  cursor: pointer;
 }
 
 .title a:hover {
