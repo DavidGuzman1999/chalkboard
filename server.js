@@ -330,8 +330,34 @@ app.get('/professor_video', (req, res) => {
 app.get("/professor_addClass", (req, res) => {
   sess = req.session;
   if (sess.userId) {
-    if (sess.user == "student") {
+    if (sess.user == "professor") {
       res.render("professor_addClass");
+    } else {
+      res.redirect("error");
+    }
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/professor_courseManager", (req, res) => {
+  sess = req.session;
+  if (sess.userId) {
+    if (sess.user == "professor") {
+      res.render("professor_courseManager");
+    } else {
+      res.redirect("error");
+    }
+  } else {
+    res.redirect("/");
+  }
+});
+
+app.get("/professor_student_work", (req, res) => {
+  sess = req.session;
+  if (sess.userId) {
+    if (sess.user == "professor") {
+      res.render("professor_student_work");
     } else {
       res.redirect("error");
     }
