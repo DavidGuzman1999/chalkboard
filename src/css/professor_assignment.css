@@ -67,6 +67,7 @@ body {
 .assignment-page {
   width: 100%;
   height: 5rem;
+  margin-bottom: 1rem;
 }
 
 .assignment-title {
@@ -140,4 +141,9 @@ body {
 
 .title {
   text-align: center;
+}
+
+.assignment-video {
+  width: 100%;
+  margin-bottom: 1rem;
 }

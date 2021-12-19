@@ -247,7 +247,7 @@ app.get('/professor_addClass', (req, res) => {
     sess=req.session;
     if(sess.userId){
       if(sess.user == "professor"){
-        res.render('professor_addClass');
+        res.render('professor_addClass', { valid: "" });
       }
       else{
         res.redirect('error');
@@ -554,43 +554,114 @@ userSchema = new Schema({
 
 User = mongoose.model("User", userSchema);
 
-// courseSchema = new Schema({
-//     courseName: {
-//         type: String,
-//         required: true,
-//     },
-//     courseId: {
-//         type: String,
-//         required: true,
-//     },
-//     courseCode: {
-//         type: SVGAnimatedInteger,
-//         required: true,
-//     },
-//     instructors: {
-//         type: [String],
-//         required: true,
-//     },
-//     description: {
-//         type: String
-//     },
-//     students: {
-//         type: [Integer]
-//     },
-//     assignments: [
-//         {
-//             title: String,
-//             dueDate: Date,
-//         }
-//     ],
-//     videos: [
-//       {
+courseSchema = new Schema({
+    unique_id: Number,
+    courseName: {
+      type: String,
+      required: true,
+    },
+    courseId: {
+      type: String,
+      required: true,
+    },
+    instructors: [
+      {
+        name: {
+          type: String,
+          required: true
+        },
+        id: {
+          type: Number,
+          required: true
+        }
+      }
+    ],
+    description: {
+      type: String
+    },
+    students: [
+      {
+        name: {
+          type: String,
+          required: true
+        },
+        id: {
+          type: Number,
+          required: true
+        }
+      }
+    ],
+    assignments: [
+      { //1 assignment
+        title: {
+          type: String
+        },
+        duedate: {
+          type: Date
+        },
+        instruction: {
+          type: String
+        },
+        video: {
+          type: String
+        },
+        answer_sheet: {
+          type: Buffer
+        },
+        assignment_questions: [
+          {
+            question: {
+              type: String
+            }
+          }
+        ]
+      }
+    ],
+    turned_in_assignments: [
+      {
+        name: {
+          type: String,
+          required: true
+        },
+        total_grade: {
+          type: Number,
+        },
+        graded: {
+          type: Boolean,
+          required: true
+        },
+        status: {
+          type: String,
+          required: true
+        },
+        comments: [
+          {
+            comment: {
+              type: String
+            }
+          }
+        ],
+        assignment_question: [
+          {
+            question: {
+              type: String
+            },
+            file: {
+              type: Buffer
+            },
+            answer: {
+              type: String
+            },
+            grade: {
+              type: String
+            }
+          }
+        ]
+      }
+    ]
+});
 
-//       }
-//     ]
-// });
-
-// Course = mongoose.model('Courses', classSchema);
+Course = mongoose.model('Courses', courseSchema);
 
 app.use(function (req, res, next) {
   if (!req.user)
@@ -721,6 +792,102 @@ app.post("/login_adm", function (req, res, next) {
     }
   });
 });
+
+app.post("/prof_adding_class", function(req, res) {
+  sess = req.session;
+  unique = false;
+  let courseid = '';
+  if (
+    !req.body.title ||
+    !req.body.desc 
+  ) {
+    return res.render("prof_adding_class", { valid: "Fill all the required fields!" });
+  }else{
+    let name = '';
+    User.findOne({unique_id: sess.userId}, function (err, user){
+      if(!user){
+        console.log(err);
+      }else{
+        name = `${user.first} ${user.last}`;
+        console.log(name);
+        courseid = makeid();
+        // console.log(courseid);
+        Course.findOne({courseId: courseid}, function(err, course){
+          if (!course) {
+            Course.findOne({}, function(err, course){
+              console.log(courseid);
+              if (course) {
+                console.log("if");
+                c = course.unique_id + 1;
+              } else {
+                c = 1;
+              }
+              var newCourse = new Course({
+                unique_id: c,
+                courseName: req.body.title,
+                courseId: courseid,
+                instructors: [{
+                  name: name,
+                  id: sess.userId
+                }],
+                description: req.body.desc,
+                students: [],
+                assignments: [],
+                turned_in_assignments: []
+              });
+              newCourse.save(function (err, Course) {
+                if (err) console.log(err);
+                else console.log("Success");
+              });
+              return res.render("professor_homepage"); 
+            })         
+          }else{
+            courseid = makeid();
+            Course.findOne({}, function(err, course){
+              console.log(courseid);
+              if (course) {
+                console.log("if");
+                c = course.unique_id + 1;
+              } else {
+                c = 1;
+              }
+              var newCourse = new Course({
+                unique_id: c,
+                courseName: req.body.title,
+                courseId: courseid,
+                instructors: [{
+                  name: name,
+                  id: sess.userId
+                }],
+                description: req.body.desc,
+                students: [],
+                assignments: [],
+                turned_in_assignments: []
+              });
+              newCourse.save(function (err, Course) {
+                if (err) console.log(err);
+                else console.log("Success");
+              });
+              return res.render("professor_homepage"); 
+            })         
+          }
+        }).sort({ _id: -1 })
+          .limit(1);
+      }
+    }).sort({ _id: -1 })
+      .limit(1);
+  }
+})
+
+function makeid() {
+  var result = '';
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < 5; i++ ) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
 
 function getEnrolledCourses(user, goto, res) {
   // get user enrolled classes
