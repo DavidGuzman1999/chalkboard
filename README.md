@@ -1,9 +1,5 @@
 # Chalkboard
 
-# Chalkboard Live Website
-
-[Chalkboard Website](https://chalk-board-app.herokuapp.com/)
-
 # Features
 
 - Responsive Design for mobile, tablet, and desktop
@@ -86,8 +82,6 @@ Jason Jiang
 - I completed the css the login, signup, student, and the majority of the professor side of the css. I tried to make the website as responsive as possible, with my design inspiration coming from the design of google classroom. As I added more css to the pages I noticed I needed to redo some of the html side of the application. I checked to see if the application was responsive using the inspect element and i noticed that i didnt really need to change the reponsiveness of the website and it is reponsive already I just needed to change the student and professor homepage so the classes will fill the whole row on smaller screens.
 
 # D3 User Management
-
-[Chalkboard Website](https://chalk-board-app.herokuapp.com/)
 
 Jason Jiang
 
